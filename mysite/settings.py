@@ -121,6 +121,10 @@ STATICFILES_DIRS = (
 try:
     import psycopg2
 except ImportError:
-    # Fall back to psycopg2cffi
-    from psycopg2cffi import compat
-    compat.register()
+    # Only try the compat registration if the real psycopg2 isn't available.
+    try:
+        # Fall back to psycopg2cffi
+        from psycopg2cffi import compat
+        compat.register()
+    except ImportError:
+        pass
